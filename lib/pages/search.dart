@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:forestore/components/button_products.dart';
 import 'package:forestore/pages/store_view.dart';
 import 'package:forestore/tokens/forestore_colors.dart';
 import 'package:ionicons/ionicons.dart';
@@ -91,9 +92,6 @@ class _SearchViewState extends State<SearchView> {
     }
   }
 
-  bool btnColor = true;
-  bool btnIcon = true;
-
   String getTitle(int selector) {
     if (_searchType == 'stores') {
       if (items[selector]["storeName"] != null) {
@@ -126,7 +124,7 @@ class _SearchViewState extends State<SearchView> {
     }
   }
 
-  TextButton getButton(int selector) {
+  Widget getButton(int selector) {
     if (_searchType == 'stores') {
       if (items[selector]["storeName"] != null) {
         return TextButton(
@@ -165,24 +163,7 @@ class _SearchViewState extends State<SearchView> {
       }
     } else if (_searchType == 'products') {
       if (items[selector]["productName"] != null) {
-        var IconButton =
-            btnIcon ? Ionicons.add_outline : Ionicons.remove_outline;
-        return TextButton(
-          onPressed: () {
-            setState(() {
-              btnColor = !btnColor;
-              btnIcon = !btnIcon;
-            });
-          },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(
-                btnColor ? Colors.greenAccent[700] : MyColors.red300),
-          ),
-          child: Icon(
-            IconButton,
-            color: Colors.white,
-          ),
-        );
+        return ButtonProducts();
       } else {
         return TextButton(
           onPressed: null,
