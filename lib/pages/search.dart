@@ -14,6 +14,11 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> {
+  // final _formKey = GlobalKey<FormState>();
+
+  var _placeHolder = 'Buscar';
+  TextEditingController _myPhoneField = TextEditingController();
+
   var label_input = TextStyle(
     fontFamily: 'Montserrat',
     color: MyColors.black300,
@@ -34,14 +39,20 @@ class _SearchViewState extends State<SearchView> {
   List<Map<String, dynamic>> items = [];
   ScrollController _scrollController = new ScrollController();
 
+  var _searchType = 'stores';
+  var _searchName = null;
+  var _counter = 0;
+
   @override
   void initState() {
     super.initState();
-    fetchFive();
+    for (int i = 0; i < 5; i++) {
+      fetchItems(_searchType, _counter, name: _searchName);
+    }
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        fetchFive();
+        fetchItems(_searchType, _counter, name: _searchName);
       }
     });
   }
@@ -50,6 +61,141 @@ class _SearchViewState extends State<SearchView> {
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  Image getImg(int selector) {
+    if (_searchType == 'stores') {
+      if (items[selector]["storeImg"] == null) {
+        return Image.asset(
+          'assets/noImg.png',
+          fit: BoxFit.cover,
+        );
+      } else {
+        return Image.network(
+          items[selector]["storeImg"],
+          fit: BoxFit.cover,
+        );
+      }
+    } else if (_searchType == 'products') {
+      if (items[selector]["productImg"] == null) {
+        return Image.asset(
+          'assets/noImg.png',
+          fit: BoxFit.cover,
+        );
+      } else {
+        return Image.network(
+          items[selector]["productImg"],
+          fit: BoxFit.cover,
+        );
+      }
+    }
+  }
+
+  bool btnColor = true;
+  bool btnIcon = true;
+
+  String getTitle(int selector) {
+    if (_searchType == 'stores') {
+      if (items[selector]["storeName"] != null) {
+        return items[selector]["storeName"];
+      } else {
+        return "No data";
+      }
+    } else if (_searchType == 'products') {
+      if (items[selector]["productName"] != null) {
+        return items[selector]["productName"];
+      } else {
+        return "No data";
+      }
+    }
+  }
+
+  String getSubTitle(int selector) {
+    if (_searchType == 'stores') {
+      if (items[selector]["type"] != null) {
+        return items[selector]["type"];
+      } else {
+        return 'No data';
+      }
+    } else if (_searchType == 'products') {
+      if (items[selector]["price"] != null) {
+        return '\$ ${items[selector]["price"]}';
+      } else {
+        return 'No data';
+      }
+    }
+  }
+
+  TextButton getButton(int selector) {
+    if (_searchType == 'stores') {
+      if (items[selector]["storeName"] != null) {
+        return TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StoreView(store: items[selector]),
+                ),
+              );
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(MyColors.yellow300),
+            ),
+            child: const Text(
+              'Ir',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ));
+      } else {
+        return TextButton(
+          onPressed: null,
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(MyColors.black100),
+          ),
+          child: const Text(
+            'Ir',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+        );
+      }
+    } else if (_searchType == 'products') {
+      if (items[selector]["productName"] != null) {
+        var IconButton =
+            btnIcon ? Ionicons.add_outline : Ionicons.remove_outline;
+        return TextButton(
+          onPressed: () {
+            setState(() {
+              btnColor = !btnColor;
+              btnIcon = !btnIcon;
+            });
+          },
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(
+                btnColor ? Colors.greenAccent[700] : MyColors.red300),
+          ),
+          child: Icon(
+            IconButton,
+            color: Colors.white,
+          ),
+        );
+      } else {
+        return TextButton(
+          onPressed: null,
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(MyColors.black100),
+          ),
+          child: const Icon(
+            Ionicons.add_outline,
+            color: Colors.black,
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -102,6 +248,14 @@ class _SearchViewState extends State<SearchView> {
                               setState(() {
                                 btnTiendas = MyColors.blue200;
                                 btnProductos = Colors.transparent;
+                                _searchType = 'stores';
+                                _searchName = null;
+                                _counter = 0;
+                                items = [];
+                                for (int i = 0; i < 5; i++) {
+                                  fetchItems(_searchType, _counter,
+                                      name: _searchName);
+                                }
                               });
                             },
                             child: Text(
@@ -124,6 +278,14 @@ class _SearchViewState extends State<SearchView> {
                               setState(() {
                                 btnProductos = MyColors.blue200;
                                 btnTiendas = Colors.transparent;
+                                _searchType = 'products';
+                                _searchName = null;
+                                _counter = 0;
+                                items = [];
+                                for (int i = 0; i < 5; i++) {
+                                  fetchItems(_searchType, _counter,
+                                      name: _searchName);
+                                }
                               });
                             },
                             child: Text(
@@ -139,34 +301,40 @@ class _SearchViewState extends State<SearchView> {
                 Stack(
                   alignment: Alignment.center,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                      height: 60,
-                      child: CupertinoTextField(
-                        textAlignVertical: TextAlignVertical.center,
-                        placeholderStyle: label_input,
-                        placeholder: 'Buscar',
-                        cursorColor: Colors.blue,
-                        cursorHeight: 20,
-                        cursorWidth: 1.5,
-                        style: label_input,
-                        padding: const EdgeInsets.only(
-                          top: 10,
-                          bottom: 10,
-                          right: 70,
-                          left: 20,
-                        ),
-                        decoration: BoxDecoration(
-                          border:
-                              Border.all(width: 1.5, color: MyColors.black300),
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.black,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
+                    Form(
+                      // key: _formKey,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        height: 60,
+                        child: CupertinoTextField(
+                          controller: _myPhoneField,
+                          textAlignVertical: TextAlignVertical.center,
+                          placeholderStyle: label_input,
+                          placeholder: _placeHolder,
+                          cursorColor: Colors.blue,
+                          maxLines: 1,
+                          textCapitalization: TextCapitalization.words,
+                          cursorHeight: 20,
+                          cursorWidth: 1.5,
+                          style: label_input,
+                          padding: const EdgeInsets.only(
+                            top: 10,
+                            bottom: 10,
+                            right: 70,
+                            left: 20,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 1.5, color: MyColors.black300),
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -188,7 +356,19 @@ class _SearchViewState extends State<SearchView> {
                             height: 40,
                             child: TextButton(
                               onPressed: () {
-                                print('hola');
+                                if (_myPhoneField.text.isEmpty) {
+                                  setState(() {
+                                    _placeHolder = 'Ingrese su búsqueda';
+                                  });
+                                } else {
+                                  setState(() {
+                                    items = [];
+                                    _counter = 0;
+                                    _searchName = _myPhoneField.text;
+                                    fetchItems(_searchType, _counter,
+                                        name: _searchName);
+                                  });
+                                }
                               },
                               child: null,
                             ),
@@ -225,35 +405,34 @@ class _SearchViewState extends State<SearchView> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1.5,
-                                  color: Colors.black,
-                                ),
                                 borderRadius: BorderRadius.circular(40),
                               ),
                               height: 80,
                               width: 80,
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(40),
-                                child: Image.network(
-                                  items[index]["storeImg"],
-                                  fit: BoxFit.cover,
-                                ),
+                                child: getImg(index),
                               ),
                             ),
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  items[index]["storeName"],
-                                  style: const TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w700,
+                                SizedBox(
+                                  width: 100,
+                                  child: Text(
+                                    getTitle(index),
+                                    softWrap: true,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
                                 ),
                                 Text(
-                                  items[index]["type"],
+                                  getSubTitle(index),
                                   style: TextStyle(
                                     color: MyColors.black200,
                                     fontWeight: FontWeight.w500,
@@ -277,27 +456,7 @@ class _SearchViewState extends State<SearchView> {
                                   ),
                                 ],
                               ),
-                              child: TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            StoreView(store: items[index]),
-                                      ),
-                                    );
-                                  },
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all(
-                                        MyColors.yellow300),
-                                  ),
-                                  child: const Text(
-                                    'Ir',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  )),
+                              child: getButton(index),
                             ),
                           ],
                         ),
@@ -313,24 +472,50 @@ class _SearchViewState extends State<SearchView> {
     );
   }
 
-  var url =
-      'https://sheetsu.com/apis/v1.0su/71ace603b465/sheets/stores/search?id=';
+  var url = 'https://sheetsu.com/apis/v1.0su/6622c522aed3/sheets/';
 
-  fetch(int id) async {
-    final link = '${url}$id';
+  fetch(String object, {int id, String name}) async {
+    _counter++;
+    var link;
+    if (object == 'stores') {
+      if (name != null) {
+        link = '${url}stores/search?storeName=$name';
+      } else {
+        link = '${url}stores/search?id=$id';
+      }
+    } else if (object == 'products') {
+      if (name != null) {
+        link = '${url}products/search?productName=$name';
+      } else {
+        link = '${url}products/search?id=$id';
+      }
+    }
     final response = await http.get(link);
-    if (response.statusCode == 200) {
-      setState(() {
-        items.add(JSON.jsonDecode(response.body)[0]);
-      });
-    } else {
-      throw Exception('Failed to load images');
+    try {
+      if (response.statusCode == 200) {
+        List data = JSON.jsonDecode(response.body);
+        setState(() {
+          if (data.length > 1) {
+            data.forEach((element) {
+              items.add(element);
+            });
+          } else {
+            items.add(data[0]);
+          }
+        });
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
-  fetchFive() {
-    for (int i = 0; i < 5; i++) {
-      fetch(i);
+  fetchItems(String object, int id, {String name}) {
+    // print(
+    //     'item: ${_searchType}, counter: ${_counter}, name: ${_searchName}, listL: ${items.length}');
+    if (name != null) {
+      fetch(object, name: name);
+    } else {
+      fetch(object, id: id);
     }
   }
 }

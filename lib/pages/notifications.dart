@@ -12,7 +12,7 @@ class NotificationsView extends StatelessWidget {
       appBar: AppBar(
         foregroundColor: Colors.black,
         title: const Text(
-          'Forestore',
+          'Notificaciones',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         elevation: 0,
