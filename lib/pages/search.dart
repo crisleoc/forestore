@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:forestore/components/button_products.dart';
 import 'package:forestore/pages/store_view.dart';
 import 'package:forestore/tokens/forestore_colors.dart';
@@ -44,16 +47,28 @@ class _SearchViewState extends State<SearchView> {
   var _searchName = null;
   var _counter = 0;
 
+  Timer _timer;
+
   @override
   void initState() {
     super.initState();
+    EasyLoading.addStatusCallback((status) {
+      print('EasyLoading Status $status');
+      if (status == EasyLoadingStatus.dismiss) {
+        _timer?.cancel();
+      }
+    });
+    EasyLoading.show(status: 'Cargando...');
     for (int i = 0; i < 5; i++) {
       fetchItems(_searchType, _counter, name: _searchName);
     }
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        fetchItems(_searchType, _counter, name: _searchName);
+        // fetchItems(_searchType, _counter, name: _searchName);
+        for (int i = 0; i < 4; i++) {
+          fetchItems(_searchType, _counter, name: _searchName);
+        }
       }
     });
   }
@@ -453,7 +468,7 @@ class _SearchViewState extends State<SearchView> {
     );
   }
 
-  var url = 'https://sheetsu.com/apis/v1.0su/6622c522aed3/sheets/';
+  var url = 'https://sheetsu.com/apis/v1.0su/5a774ce7a249/sheets/';
 
   fetch(String object, {int id, String name}) async {
     _counter++;
@@ -471,7 +486,10 @@ class _SearchViewState extends State<SearchView> {
         link = '${url}products/search?id=$id';
       }
     }
+    EasyLoading.show(status: 'Cargando...');
     final response = await http.get(link);
+    EasyLoading.dismiss();
+
     try {
       if (response.statusCode == 200) {
         List data = JSON.jsonDecode(response.body);
@@ -491,8 +509,6 @@ class _SearchViewState extends State<SearchView> {
   }
 
   fetchItems(String object, int id, {String name}) {
-    // print(
-    //     'item: ${_searchType}, counter: ${_counter}, name: ${_searchName}, listL: ${items.length}');
     if (name != null) {
       fetch(object, name: name);
     } else {

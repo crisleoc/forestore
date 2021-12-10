@@ -54,7 +54,10 @@ class _HomeState extends State<Home> {
     final screens = [
       BagView(),
       MainView(),
-      ProfileView(),
+      ProfileView(
+        userName: userName,
+        password: password,
+      ),
       NotificationsView(),
       SearchView(),
     ];

@@ -1,11 +1,14 @@
+// import 'dart:async';
+
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:forestore/data/server_conection.dart';
 import 'package:forestore/pages/home.dart';
 import 'package:forestore/tokens/forestore_colors.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 class SignInForm extends StatelessWidget {
   const SignInForm({Key key}) : super(key: key);
@@ -13,21 +16,11 @@ class SignInForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LoaderOverlay(
-        overlayWidget: Center(
-          child: SpinKitDoubleBounce(
-            color: MyColors.white100,
-            size: 50.0,
-          ),
-        ),
-        overlayOpacity: 0.8,
-        overlayColor: MyColors.black200,
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: MyColors.green100,
-          child: const MyCustomForm(),
-        ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: MyColors.green100,
+        child: const MyCustomForm(),
       ),
     );
   }
@@ -45,6 +38,21 @@ class MyCustomForm extends StatefulWidget {
 class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
   String _nickName, _name, _email, _password;
+
+  Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    EasyLoading.addStatusCallback((status) {
+      print('EasyLoading Status $status');
+      if (status == EasyLoadingStatus.dismiss) {
+        _timer?.cancel();
+      }
+    });
+    // EasyLoading.showSuccess('Use in initState');
+    // EasyLoading.removeCallbacks();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -294,7 +302,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                 pressedOpacity: 0.8,
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
-                    context.showLoaderOverlay();
+                    // context.showLoaderOverlay();
+                    EasyLoading.show(status: 'Cargando...');
                     var srvcon = server_conection();
                     var response = await srvcon.insert(
                       "users",
@@ -305,7 +314,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                         "password": _password
                       },
                     );
-                    context.hideLoaderOverlay();
+                    EasyLoading.dismiss();
+                    // context.hideLoaderOverlay();
                     var message =
                         response == '200' ? 'Registro exitoso' : 'Error';
                     ScaffoldMessenger.of(context).showSnackBar(
