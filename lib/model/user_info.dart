@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final userInfoRes = userInfoResFromJson(jsonString);
-
 import 'dart:convert';
 
 List<UserInfoRes> userInfoResFromJson(String str) => List<UserInfoRes>.from(

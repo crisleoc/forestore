@@ -2,6 +2,14 @@ import 'dart:convert';
 import 'dart:convert' as JSON;
 import 'package:http/http.dart' as http;
 
+// void main() async {
+//   server_conection srv = server_conection();
+//   var resUp = await srv.update('users', '0', {"name": "Angel Castiblanco"});
+//   var resDe = await srv.delete('users', '5');
+//   print(resUp);
+//   print(resDe);
+// }
+
 class server_conection {
   final _svrUrlRead = 'https://sheetsu.com/apis/v1.0su/5a774ce7a249/sheets/';
   final _svrUrlInsert =
@@ -46,6 +54,37 @@ class server_conection {
       return '${response.statusCode}';
     }
   }
-}
 
-server_conection API = server_conection();
+  Future<String> update(
+      String object, String id, Map<String, dynamic> data) async {
+    final url = Uri.parse('$_svrUrlInsert$object/$id');
+    var jsonBody = json.encode(data);
+    var response = await http.patch(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: jsonBody,
+    );
+    var jsonRes = JSON.jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return '${response.statusCode}';
+    } else {
+      return '${response.statusCode}';
+    }
+  }
+
+  Future<String> delete(String object, String id) async {
+    final url = Uri.parse('$_svrUrlInsert$object/$id');
+    // var jsonBody = json.encode(data);
+    var response = await http.delete(
+      url,
+      headers: {"Content-Type": "application/json"},
+      // body: jsonBody,
+    );
+    var jsonRes = JSON.jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return '${response.statusCode}';
+    } else {
+      return '${response.statusCode}';
+    }
+  }
+}

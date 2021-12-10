@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:forestore/tokens/forestore_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:forestore/tokens/forestore_colors.dart';
 
 class StoreView extends StatelessWidget {
   final Map<String, dynamic> store;
