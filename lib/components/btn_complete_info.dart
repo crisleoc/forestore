@@ -36,6 +36,7 @@ class BtnCompleteInfo extends StatelessWidget {
                 softWrap: true,
                 style: TextStyle(
                   color: MyColors.black200,
+                  fontFamily: 'Montserrat',
                 ),
               ),
             ),
