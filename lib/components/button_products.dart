@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:forestore/model/bag_products.dart';
 import 'package:forestore/tokens/forestore_colors.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:forestore/data/db.dart';
 
 class ButtonProducts extends StatefulWidget {
-  ButtonProducts({Key key}) : super(key: key);
+  final Map<String, dynamic> productAdd;
+
+  ButtonProducts({Key key, this.productAdd}) : super(key: key);
 
   @override
-  _ButtonProductsState createState() => _ButtonProductsState();
+  _ButtonProductsState createState() => _ButtonProductsState(this.productAdd);
 }
 
 class _ButtonProductsState extends State<ButtonProducts> {
+  final Map<String, dynamic> productAdd;
   bool btnIcon = true;
   bool btnColor = true;
   bool productAdded = false;
+
+  _ButtonProductsState(this.productAdd);
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +31,20 @@ class _ButtonProductsState extends State<ButtonProducts> {
           btnIcon = !btnIcon;
           productAdded = !productAdded;
         });
+
+        if (productAdded) {
+          DB.insert(BagProducts(
+            pNum: productAdd["id"],
+            name: productAdd["productName"],
+            price: double.parse(productAdd["price"]),
+            imgUrl: productAdd["productImg"],
+          ));
+          print('Producto agregado');
+        } else {
+          DB.delete(productAdd["id"]);
+          print('Producto Eliminado');
+        }
+
         Fluttertoast.showToast(
             msg: productAdded ? "Producto agregado" : "Producto eliminado",
             toastLength: Toast.LENGTH_SHORT,

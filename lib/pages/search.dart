@@ -178,7 +178,9 @@ class _SearchViewState extends State<SearchView> {
       }
     } else if (_searchType == 'products') {
       if (items[selector]["productName"] != null) {
-        return ButtonProducts();
+        return ButtonProducts(
+          productAdd: items[selector],
+        );
       } else {
         return TextButton(
           onPressed: null,
