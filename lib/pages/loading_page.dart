@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:forestore/tokens/forestore_colors.dart';
 
 class LoadingPage extends StatelessWidget {
-  final Color background;
-  const LoadingPage({Key key, this.background}) : super(key: key);
+  final Color? background;
+  const LoadingPage({Key? key, this.background}) : super(key: key);
 
   Widget build(BuildContext context) {
     return Scaffold(

@@ -12,17 +12,17 @@ class DB {
     }, version: 1);
   }
 
-  static Future<void> insert(BagProducts bProduct) async {
+  static Future<Future<int>> insert(BagProducts bProduct) async {
     Database database = await _openDB();
     return database.insert("bagProducts", bProduct.toMap());
   }
 
-  static Future<void> delete(String pNum) async {
+  static Future<Future<int>> delete(String? pNum) async {
     Database database = await _openDB();
     return database.delete("bagProducts", where: "pNum = ?", whereArgs: [pNum]);
   }
 
-  static Future<void> update(BagProducts bProduct) async {
+  static Future<Future<int>> update(BagProducts bProduct) async {
     Database database = await _openDB();
     return database.update(
       "bagProducts",

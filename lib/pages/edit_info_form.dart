@@ -10,18 +10,18 @@ import 'package:forestore/tokens/forestore_colors.dart';
 import 'package:ionicons/ionicons.dart';
 
 class EditInfoForm extends StatefulWidget {
-  final UserInfoRes usuario;
-  EditInfoForm({Key key, this.usuario}) : super(key: key);
+  final UserInfoRes? usuario;
+  EditInfoForm({Key? key, this.usuario}) : super(key: key);
 
   @override
   _EditInfoFormState createState() => _EditInfoFormState(this.usuario);
 }
 
 class _EditInfoFormState extends State<EditInfoForm> {
-  final UserInfoRes usuario;
+  final UserInfoRes? usuario;
   _EditInfoFormState(this.usuario);
 
-  Timer _timer;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -42,18 +42,18 @@ class _EditInfoFormState extends State<EditInfoForm> {
   TextEditingController directionField = TextEditingController();
   TextEditingController passwordField = TextEditingController();
 
-  String updateImg;
-  String updateNick;
-  String updateName;
-  String updateMail;
-  String updatePhone;
-  String updateDirection;
-  String updatePassword;
+  String? updateImg;
+  String? updateNick;
+  String? updateName;
+  String? updateMail;
+  String? updatePhone;
+  String? updateDirection;
+  String? updatePassword;
 
   Image getUserImg() {
-    if (usuario.profileImg != "") {
+    if (usuario!.profileImg != "") {
       return Image.network(
-        usuario.profileImg,
+        usuario!.profileImg!,
         fit: BoxFit.cover,
       );
     } else {
@@ -64,7 +64,7 @@ class _EditInfoFormState extends State<EditInfoForm> {
     }
   }
 
-  String getDataString(String data) {
+  String? getDataString(String? data) {
     if (data != "") {
       return data;
     } else {
@@ -72,12 +72,19 @@ class _EditInfoFormState extends State<EditInfoForm> {
     }
   }
 
-  bool confirm;
+  bool? confirm;
   final _formKey = GlobalKey<FormState>();
 
   TextStyle label_input = TextStyle(
     fontFamily: 'Montserrat',
     color: MyColors.black200.withOpacity(0.7),
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+  );
+
+  TextStyle text_form = TextStyle(
+    fontFamily: 'Montserrat',
+    color: MyColors.black200,
     fontSize: 18,
     fontWeight: FontWeight.w500,
   );
@@ -134,12 +141,12 @@ class _EditInfoFormState extends State<EditInfoForm> {
                           controller: imgField,
                           textAlignVertical: TextAlignVertical.center,
                           placeholderStyle: label_input,
-                          placeholder: getDataString(usuario.profileImg),
+                          placeholder: getDataString(usuario!.profileImg),
                           cursorColor: Colors.blue,
                           maxLines: 1,
                           cursorHeight: 20,
                           cursorWidth: 1.5,
-                          style: label_input,
+                          style: text_form,
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 20),
                           decoration: BoxDecoration(
@@ -161,13 +168,13 @@ class _EditInfoFormState extends State<EditInfoForm> {
                           controller: nickField,
                           textAlignVertical: TextAlignVertical.center,
                           placeholderStyle: label_input,
-                          placeholder: getDataString(usuario.userName),
+                          placeholder: getDataString(usuario!.userName),
                           cursorColor: Colors.blue,
                           maxLines: 1,
                           textCapitalization: TextCapitalization.words,
                           cursorHeight: 20,
                           cursorWidth: 1.5,
-                          style: label_input,
+                          style: text_form,
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 20),
                           decoration: BoxDecoration(
@@ -189,13 +196,13 @@ class _EditInfoFormState extends State<EditInfoForm> {
                           controller: nameField,
                           textAlignVertical: TextAlignVertical.center,
                           placeholderStyle: label_input,
-                          placeholder: getDataString(usuario.name),
+                          placeholder: getDataString(usuario!.name),
                           cursorColor: Colors.blue,
                           maxLines: 1,
                           textCapitalization: TextCapitalization.words,
                           cursorHeight: 20,
                           cursorWidth: 1.5,
-                          style: label_input,
+                          style: text_form,
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 20),
                           decoration: BoxDecoration(
@@ -217,13 +224,13 @@ class _EditInfoFormState extends State<EditInfoForm> {
                           controller: mailField,
                           textAlignVertical: TextAlignVertical.center,
                           placeholderStyle: label_input,
-                          placeholder: getDataString(usuario.email),
+                          placeholder: getDataString(usuario!.email),
                           cursorColor: Colors.blue,
                           maxLines: 1,
                           textCapitalization: TextCapitalization.words,
                           cursorHeight: 20,
                           cursorWidth: 1.5,
-                          style: label_input,
+                          style: text_form,
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 20),
                           decoration: BoxDecoration(
@@ -245,13 +252,13 @@ class _EditInfoFormState extends State<EditInfoForm> {
                           controller: phoneField,
                           textAlignVertical: TextAlignVertical.center,
                           placeholderStyle: label_input,
-                          placeholder: getDataString(usuario.phone),
+                          placeholder: getDataString(usuario!.phone),
                           cursorColor: Colors.blue,
                           maxLines: 1,
                           textCapitalization: TextCapitalization.words,
                           cursorHeight: 20,
                           cursorWidth: 1.5,
-                          style: label_input,
+                          style: text_form,
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 20),
                           decoration: BoxDecoration(
@@ -274,13 +281,13 @@ class _EditInfoFormState extends State<EditInfoForm> {
                           controller: directionField,
                           textAlignVertical: TextAlignVertical.center,
                           placeholderStyle: label_input,
-                          placeholder: getDataString(usuario.direction),
+                          placeholder: getDataString(usuario!.direction),
                           cursorColor: Colors.blue,
                           maxLines: 1,
                           textCapitalization: TextCapitalization.words,
                           cursorHeight: 20,
                           cursorWidth: 1.5,
-                          style: label_input,
+                          style: text_form,
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 20),
                           decoration: BoxDecoration(
@@ -302,13 +309,13 @@ class _EditInfoFormState extends State<EditInfoForm> {
                           controller: passwordField,
                           textAlignVertical: TextAlignVertical.center,
                           placeholderStyle: label_input,
-                          placeholder: getDataString(usuario.password),
+                          placeholder: getDataString(usuario!.password),
                           cursorColor: Colors.blue,
                           maxLines: 1,
                           textCapitalization: TextCapitalization.words,
                           cursorHeight: 20,
                           cursorWidth: 1.5,
-                          style: label_input,
+                          style: text_form,
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 20),
                           decoration: BoxDecoration(
@@ -353,7 +360,7 @@ class _EditInfoFormState extends State<EditInfoForm> {
                           var srvcon = server_conection();
                           var response = await srvcon.delete(
                             "users",
-                            usuario.id,
+                            usuario!.id,
                           );
                           EasyLoading.dismiss();
                           var message =
@@ -399,13 +406,13 @@ class _EditInfoFormState extends State<EditInfoForm> {
                         final isYes = await showCupertinoDialog(
                             context: context, builder: UpdateDataDialog);
                         if (isYes) {
-                          updateImg = usuario.profileImg;
-                          updateNick = usuario.userName;
-                          updateName = usuario.name;
-                          updateMail = usuario.email;
-                          updatePhone = usuario.phone;
-                          updateDirection = usuario.direction;
-                          updatePassword = usuario.password;
+                          updateImg = usuario!.profileImg;
+                          updateNick = usuario!.userName;
+                          updateName = usuario!.name;
+                          updateMail = usuario!.email;
+                          updatePhone = usuario!.phone;
+                          updateDirection = usuario!.direction;
+                          updatePassword = usuario!.password;
 
                           if (!imgField.text.isEmpty) {
                             updateImg = imgField.text;
@@ -432,7 +439,7 @@ class _EditInfoFormState extends State<EditInfoForm> {
                           var srvcon = server_conection();
                           var response = await srvcon.update(
                             "users",
-                            usuario.id,
+                            usuario!.id,
                             {
                               "userName": updateNick,
                               "password": updatePassword,

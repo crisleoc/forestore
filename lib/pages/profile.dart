@@ -9,7 +9,7 @@ class ProfileView extends StatefulWidget {
   final userName;
   final password;
   ProfileView({
-    Key key,
+    Key? key,
     this.userName,
     this.password,
   }) : super(key: key);
@@ -26,7 +26,7 @@ class _ProfileViewState extends State<ProfileView> {
   final userPassword;
   _ProfileViewState(this.userNickname, this.userPassword);
 
-  UserInfoRes infoUser;
+  UserInfoRes? infoUser;
 
   @override
   Widget build(BuildContext context) {
@@ -78,9 +78,9 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
               );
             } else {
-              infoUser = snapshot.data[0];
+              infoUser = snapshot.data![0];
               return ProfileMain(
-                usuario: snapshot.data[0],
+                usuario: snapshot.data![0],
               );
             }
           },
@@ -92,8 +92,9 @@ class _ProfileViewState extends State<ProfileView> {
   var url = 'https://sheetsu.com/apis/v1.0su/5a774ce7a249/sheets/';
 
   Future<List<UserInfoRes>> fetchUserInfo(
-      String userName, String password) async {
-    var link = '${url}users/search?userName=${userName}&password=${password}';
+      String? userName, String? password) async {
+    var link = Uri.parse(
+        '${url}users/search?userName=${userName}&password=${password}');
     final resp = await http.get(link);
     return userInfoResFromJson(resp.body);
   }

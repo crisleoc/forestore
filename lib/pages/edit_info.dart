@@ -6,8 +6,8 @@ import 'package:forestore/pages/loading_page.dart';
 import 'package:forestore/tokens/forestore_colors.dart';
 
 class EditeInfo extends StatelessWidget {
-  const EditeInfo({Key key, this.usuario}) : super(key: key);
-  final UserInfoRes usuario;
+  const EditeInfo({Key? key, this.usuario}) : super(key: key);
+  final UserInfoRes? usuario;
 
   Widget getForm() {
     if (usuario != null) {

@@ -4,7 +4,7 @@ import 'package:forestore/tokens/forestore_colors.dart';
 import 'package:ionicons/ionicons.dart';
 
 class NotificationsView extends StatelessWidget {
-  const NotificationsView({Key key}) : super(key: key);
+  const NotificationsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

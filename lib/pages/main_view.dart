@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as JSON;
 
 class MainView extends StatefulWidget {
-  MainView({Key key}) : super(key: key);
+  MainView({Key? key}) : super(key: key);
 
   @override
   _MainViewState createState() => _MainViewState();
@@ -32,7 +32,7 @@ class _MainViewState extends State<MainView> {
     }
   }
 
-  String getTitle(int selector) {
+  String? getTitle(int selector) {
     if (items[selector]["productName"] != null) {
       return items[selector]["productName"];
     } else {
@@ -49,10 +49,10 @@ class _MainViewState extends State<MainView> {
   }
 
   var _counter = 0;
-  var _searchName = null;
+  dynamic _searchName = null;
   var _searchType = 'products';
 
-  Timer _timer;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -158,7 +158,7 @@ class _MainViewState extends State<MainView> {
                             SizedBox(
                               width: 100,
                               child: Text(
-                                getTitle(index),
+                                getTitle(index)!,
                                 softWrap: true,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
@@ -209,9 +209,9 @@ class _MainViewState extends State<MainView> {
 
   var url = 'https://sheetsu.com/apis/v1.0su/5a774ce7a249/sheets/';
 
-  fetch(String object, {int id, String name}) async {
+  fetch(String object, {int? id, String? name}) async {
     _counter++;
-    var link;
+    late var link;
     if (object == 'stores') {
       if (name != null) {
         link = '${url}stores/search?storeName=$name';
@@ -226,14 +226,14 @@ class _MainViewState extends State<MainView> {
       }
     }
     EasyLoading.show(status: 'Cargando...');
-    final response = await http.get(link);
+    final response = await http.get(Uri.parse(link));
     EasyLoading.dismiss();
 
     try {
       if (response.statusCode == 200) {
-        List data = JSON.jsonDecode(response.body);
+        List? data = JSON.jsonDecode(response.body);
         setState(() {
-          if (data.length > 1) {
+          if (data!.length > 1) {
             data.forEach((element) {
               items.add(element);
             });
@@ -247,7 +247,7 @@ class _MainViewState extends State<MainView> {
     }
   }
 
-  fetchItems(String object, int id, {String name}) {
+  fetchItems(String object, int id, {String? name}) {
     if (name != null) {
       fetch(object, name: name);
     } else {

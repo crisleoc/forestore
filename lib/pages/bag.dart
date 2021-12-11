@@ -3,7 +3,7 @@ import 'package:forestore/pages/list_bag.dart';
 import 'package:forestore/tokens/forestore_colors.dart';
 
 class BagView extends StatelessWidget {
-  const BagView({Key key}) : super(key: key);
+  const BagView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

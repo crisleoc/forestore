@@ -5,13 +5,13 @@ import 'package:forestore/tokens/forestore_colors.dart';
 import 'package:ionicons/ionicons.dart';
 
 class CreateStore extends StatelessWidget {
-  final UserInfoRes usuario;
-  const CreateStore({Key key, this.usuario}) : super(key: key);
+  final UserInfoRes? usuario;
+  const CreateStore({Key? key, this.usuario}) : super(key: key);
 
-  String getName() {
+  String? getName() {
     if (usuario != null) {
-      if (usuario.name != "") {
-        return usuario.name;
+      if (usuario!.name != "") {
+        return usuario!.name;
       }
     } else {
       return "No data";
@@ -40,7 +40,7 @@ class CreateStore extends StatelessWidget {
       backgroundColor: MyColors.yellow300,
       body: Center(
         child: Text(
-          getName(),
+          getName()!,
           style: const TextStyle(
             fontSize: 30,
           ),

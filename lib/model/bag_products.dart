@@ -1,11 +1,11 @@
 import 'dart:ffi';
 
 class BagProducts {
-  int id;
-  String pNum;
-  String name;
-  double price;
-  String imgUrl;
+  int? id;
+  String? pNum;
+  String? name;
+  double? price;
+  String? imgUrl;
 
   BagProducts({
     this.id,

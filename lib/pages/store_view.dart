@@ -4,8 +4,8 @@ import 'package:forestore/tokens/forestore_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class StoreView extends StatelessWidget {
-  final Map<String, dynamic> store;
-  const StoreView({Key key, this.store}) : super(key: key);
+  final Map<String, dynamic>? store;
+  const StoreView({Key? key, this.store}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class StoreView extends StatelessWidget {
       appBar: AppBar(
         foregroundColor: Colors.black,
         title: Text(
-          store["storeName"],
+          store!["storeName"],
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         elevation: 0,
@@ -59,7 +59,7 @@ class StoreView extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(40),
                               child: Image.network(
-                                store['storeImg'],
+                                store!['storeImg'],
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -83,7 +83,7 @@ class StoreView extends StatelessWidget {
                                 ),
                               ),
                               onTap: () async {
-                                var url = store["web"];
+                                var url = store!["web"];
                                 if (await canLaunch(url)) {
                                   await launch(url);
                                 } else {
@@ -106,7 +106,7 @@ class StoreView extends StatelessWidget {
                               vertical: 5,
                             ),
                             child: Text(
-                              store["phone"],
+                              store!["phone"],
                               softWrap: true,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -122,7 +122,7 @@ class StoreView extends StatelessWidget {
                               vertical: 5,
                             ),
                             child: Text(
-                              store["email"],
+                              store!["email"],
                               softWrap: true,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
@@ -138,7 +138,7 @@ class StoreView extends StatelessWidget {
                               vertical: 5,
                             ),
                             child: Text(
-                              store["direction"],
+                              store!["direction"],
                               softWrap: true,
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,

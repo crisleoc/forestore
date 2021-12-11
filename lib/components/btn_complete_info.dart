@@ -5,8 +5,8 @@ import 'package:forestore/pages/edit_info.dart';
 import 'package:forestore/tokens/forestore_colors.dart';
 
 class BtnCompleteInfo extends StatelessWidget {
-  final UserInfoRes usuario;
-  const BtnCompleteInfo({Key key, this.usuario}) : super(key: key);
+  final UserInfoRes? usuario;
+  const BtnCompleteInfo({Key? key, this.usuario}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

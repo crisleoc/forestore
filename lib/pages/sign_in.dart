@@ -9,7 +9,7 @@ import 'package:forestore/tokens/forestore_colors.dart';
 import 'package:ionicons/ionicons.dart';
 
 class SignInForm extends StatelessWidget {
-  const SignInForm({Key key}) : super(key: key);
+  const SignInForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class SignInForm extends StatelessWidget {
 }
 
 class MyCustomForm extends StatefulWidget {
-  const MyCustomForm({Key key}) : super(key: key);
+  const MyCustomForm({Key? key}) : super(key: key);
 
   @override
   MyCustomFormState createState() {
@@ -35,9 +35,9 @@ class MyCustomForm extends StatefulWidget {
 
 class MyCustomFormState extends State<MyCustomForm> {
   final _formKey = GlobalKey<FormState>();
-  String _nickName, _name, _email, _password;
+  String? _nickName, _name, _email, _password;
 
-  Timer _timer;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -103,7 +103,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: null,
+                          child: const Visibility(
+                            visible: false,
+                            child: Text('.'),
+                          ),
                         ),
                       ),
                     ],
@@ -299,7 +302,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 color: MyColors.yellow300,
                 pressedOpacity: 0.8,
                 onPressed: () async {
-                  if (_formKey.currentState.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     // context.showLoaderOverlay();
                     EasyLoading.show(status: 'Cargando...');
                     var srvcon = server_conection();

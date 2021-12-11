@@ -5,7 +5,7 @@ import 'package:forestore/model/bag_products.dart';
 import 'dart:math' as math;
 
 class ListBagProducts extends StatefulWidget {
-  ListBagProducts({Key key}) : super(key: key);
+  ListBagProducts({Key? key}) : super(key: key);
 
   @override
   _ListBagProductsState createState() => _ListBagProductsState();
@@ -59,7 +59,7 @@ class _ListBagProductsState extends State<ListBagProducts> {
                   Container(
                     margin: EdgeInsets.only(top: 10),
                     child: Text(
-                      bProducts[i].name,
+                      bProducts[i].name!,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,

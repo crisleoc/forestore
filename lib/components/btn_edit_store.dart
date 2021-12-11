@@ -7,8 +7,8 @@ import 'package:forestore/pages/edit_store.dart';
 import 'package:forestore/tokens/forestore_colors.dart';
 
 class BtnEditeStore extends StatelessWidget {
-  final UserInfoRes usuario;
-  const BtnEditeStore({Key key, this.usuario}) : super(key: key);
+  final UserInfoRes? usuario;
+  const BtnEditeStore({Key? key, this.usuario}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

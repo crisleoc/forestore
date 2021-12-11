@@ -6,16 +6,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:forestore/data/db.dart';
 
 class ButtonProducts extends StatefulWidget {
-  final Map<String, dynamic> productAdd;
+  final Map<String, dynamic>? productAdd;
 
-  ButtonProducts({Key key, this.productAdd}) : super(key: key);
+  ButtonProducts({Key? key, this.productAdd}) : super(key: key);
 
   @override
   _ButtonProductsState createState() => _ButtonProductsState(this.productAdd);
 }
 
 class _ButtonProductsState extends State<ButtonProducts> {
-  final Map<String, dynamic> productAdd;
+  final Map<String, dynamic>? productAdd;
   bool btnIcon = true;
   bool btnColor = true;
   bool productAdded = false;
@@ -34,14 +34,14 @@ class _ButtonProductsState extends State<ButtonProducts> {
 
         if (productAdded) {
           DB.insert(BagProducts(
-            pNum: productAdd["id"],
-            name: productAdd["productName"],
-            price: double.parse(productAdd["price"]),
-            imgUrl: productAdd["productImg"],
+            pNum: productAdd!["id"],
+            name: productAdd!["productName"],
+            price: double.parse(productAdd!["price"]),
+            imgUrl: productAdd!["productImg"],
           ));
           print('Producto agregado');
         } else {
-          DB.delete(productAdd["id"]);
+          DB.delete(productAdd!["id"]);
           print('Producto Eliminado');
         }
 

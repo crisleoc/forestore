@@ -7,23 +7,23 @@ import 'package:forestore/model/user_info.dart';
 import 'package:forestore/tokens/forestore_colors.dart';
 
 class ProfileMain extends StatefulWidget {
-  UserInfoRes usuario;
-  ProfileMain({Key key, this.usuario}) : super(key: key);
+  UserInfoRes? usuario;
+  ProfileMain({Key? key, this.usuario}) : super(key: key);
 
   @override
   _ProfileMainState createState() => _ProfileMainState(usuario);
 }
 
 class _ProfileMainState extends State<ProfileMain> {
-  final UserInfoRes usuario;
+  final UserInfoRes? usuario;
   _ProfileMainState(this.usuario);
 
   int _incompleteDataCounter = 0;
 
   Image getUserImg() {
-    if (usuario.profileImg != "") {
+    if (usuario!.profileImg != "") {
       return Image.network(
-        usuario.profileImg,
+        usuario!.profileImg!,
         fit: BoxFit.cover,
       );
     } else {
@@ -34,7 +34,7 @@ class _ProfileMainState extends State<ProfileMain> {
     }
   }
 
-  String getDataString(String data) {
+  String? getDataString(String? data) {
     if (data != "") {
       return data;
     } else {
@@ -50,13 +50,14 @@ class _ProfileMainState extends State<ProfileMain> {
       return BtnCompleteInfo(
         usuario: usuario,
       );
-    } else if (usuario.storeId == '') {
+    } else if (usuario!.storeId == '') {
       return BtnCreateStore(usuario: usuario);
-    } else if (usuario.storeId != '') {
+    } else if (usuario!.storeId != '') {
       return BtnEditeStore(
         usuario: usuario,
       );
     }
+    throw ('xd');
   }
 
   @override
@@ -99,7 +100,7 @@ class _ProfileMainState extends State<ProfileMain> {
                         )),
                       ),
                       child: Text(
-                        usuario.userName,
+                        usuario!.userName!,
                         style: TextStyle(
                           color: MyColors.blue100,
                           fontWeight: FontWeight.bold,
@@ -121,7 +122,7 @@ class _ProfileMainState extends State<ProfileMain> {
                         vertical: 5,
                       ),
                       child: Text(
-                        getDataString(usuario.name),
+                        getDataString(usuario!.name)!,
                         softWrap: true,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -138,7 +139,7 @@ class _ProfileMainState extends State<ProfileMain> {
                         vertical: 5,
                       ),
                       child: Text(
-                        getDataString(usuario.phone),
+                        getDataString(usuario!.phone)!,
                         softWrap: true,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -155,7 +156,7 @@ class _ProfileMainState extends State<ProfileMain> {
                         vertical: 5,
                       ),
                       child: Text(
-                        getDataString(usuario.email),
+                        getDataString(usuario!.email)!,
                         softWrap: true,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
@@ -178,7 +179,7 @@ class _ProfileMainState extends State<ProfileMain> {
               vertical: 10,
             ),
             child: Text(
-              getDataString(usuario.direction),
+              getDataString(usuario!.direction)!,
               softWrap: true,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,

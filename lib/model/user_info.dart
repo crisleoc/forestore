@@ -21,17 +21,17 @@ class UserInfoRes {
     this.storeId,
   });
 
-  String id;
-  String userName;
-  String password;
-  String profileImg;
-  String name;
-  String email;
-  String phone;
-  String direction;
-  String lat;
-  String lon;
-  String storeId;
+  String? id;
+  String? userName;
+  String? password;
+  String? profileImg;
+  String? name;
+  String? email;
+  String? phone;
+  String? direction;
+  String? lat;
+  String? lon;
+  String? storeId;
 
   factory UserInfoRes.fromJson(Map<String, dynamic> json) => UserInfoRes(
         id: json["id"],
