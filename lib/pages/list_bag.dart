@@ -45,7 +45,7 @@ class _ListBagProductsState extends State<ListBagProducts> {
           DB.delete(bProducts[i].pNum);
         },
         child: Container(
-          height: 70,
+          height: 78,
           width: double.infinity,
           padding: const EdgeInsets.only(right: 30, left: 30, bottom: 30),
           child: Row(
@@ -56,11 +56,14 @@ class _ListBagProductsState extends State<ListBagProducts> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    bProducts[i].name,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    child: Text(
+                      bProducts[i].name,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                   Text(
