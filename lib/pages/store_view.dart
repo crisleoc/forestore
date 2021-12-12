@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:forestore/components/map.dart';
 import 'package:forestore/tokens/forestore_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -9,6 +10,12 @@ class StoreView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String latString = store!["lat"];
+    final String lonString = store!["lon"];
+
+    final double lat = double.parse(latString.replaceAll(',', '.'));
+    final double lon = double.parse(lonString.replaceAll(',', '.'));
+
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.black,
@@ -156,11 +163,15 @@ class StoreView extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(width: 1.5, color: Colors.black),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(2),
                     color: Colors.white,
                   ),
                   margin: EdgeInsets.only(top: 20),
                   height: MediaQuery.of(context).size.height - 240,
+                  child: MapSample(
+                    latitud: lat,
+                    longitud: lon,
+                  ),
                 )
               ],
             ),
